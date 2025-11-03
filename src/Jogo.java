@@ -21,7 +21,11 @@ public class Jogo {
             System.out.print("\nO que voce gostaria de fazer?\n- Pegar objeto\n- Usar objeto\n- Olhar objeto\n- Acessar inventario\n> ");
             String comando = scanner.nextLine().toLowerCase();
 
-            processarComando(comando, jogador, sala);
+            try {
+                processarComando(comando, jogador, sala);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         System.out.println("\n---\nParabens, " + jogador.getNome() + "! Ao entrar na fechadura, a chave gira e você escuta um clique.\nAlguns segundos depois, a porta de ferro se abre.\nParabéns! Você escapou!");
@@ -29,8 +33,9 @@ public class Jogo {
         scanner.close();
     }
 
-    
-    public static void processarComando(String comando, Jogador jogador, Sala sala) {
+    public static void processarComando(String comando, Jogador jogador, Sala sala) 
+        throws ComandoInvalidoException, ObjetoNaoEncontradoException, InventarioCheioException {
+        
         String[] partesDoComando = comando.toLowerCase().split(" ");
         String acao = partesDoComando[0];
 
@@ -40,67 +45,45 @@ public class Jogo {
                     sala.mostrarSala();
                 } else {
                     String nomeDoObjeto = partesDoComando[1];
-                    ObjetoInterativo objeto = sala.buscarObjeto(nomeDoObjeto);
-
-                    if (objeto != null) {
-                        System.out.println(objeto.getDescricao());
-                    } else {
+                    ObjetoInterativo objeto;
+                    try {
+                        objeto = sala.buscarObjeto(nomeDoObjeto);
+                    } catch (ObjetoNaoEncontradoException e) {
                         objeto = jogador.buscarItem(nomeDoObjeto);
-                        if (objeto != null) {
-                            System.out.println(objeto.getDescricao());
-                        } else {
-                            System.out.println("---\nIsso nao parece estar por aqui.");
-                        }
                     }
+                    System.out.println(objeto.getDescricao());
                 }
                 break;
 
             case "pegar":
                 if (partesDoComando.length == 1) {
-                    System.out.println("---\nPegar o que?");
-                } else {
-                    String nomeDoObjeto = partesDoComando[1];
-                    ObjetoInterativo objeto = sala.buscarObjeto(nomeDoObjeto);
+                    throw new ComandoInvalidoException("---\nPegar o que?");
+                } 
+                
+                String nomeDoObjeto = partesDoComando[1];
+                ObjetoInterativo objeto = sala.buscarObjeto(nomeDoObjeto);
 
-                    if (objeto == null) {
-                        System.out.println("---\nNao ha nenhum '" + nomeDoObjeto + "' aqui.");
-                    } else {
-                        // AQUI ESTÁ A MUDANÇA: Trocamos 'isPegavel()' por 'instanceof ItemPegavel'
-                        if (objeto instanceof ItemPegavel) {
-                            if (jogador.pegarItem(objeto)) {
-                                sala.removerObjeto(objeto);
-                                System.out.println("---\nVoce pegou: " + objeto.getNome());
-                            } else {
-                                System.out.println("---\nSeu inventario esta cheio!");
-                            }
-                        } else {
-                            System.out.println("---\nVocê nao pode pegar '" + objeto.getNome() + "'.");
-                        }
-                    }
+                if (objeto instanceof ItemPegavel) {
+                    jogador.pegarItem(objeto);
+                    sala.removerObjeto(objeto);
+                    System.out.println("---\nVoce pegou: " + objeto.getNome());
+                } else {
+                    System.out.println("---\nVocê nao pode pegar '" + objeto.getNome() + "'.");
                 }
                 break;
 
             case "usar":
                 if (partesDoComando.length == 2) {
                     String nomeDoAlvo = partesDoComando[1];
-
-                    if (nomeDoAlvo.equalsIgnoreCase("bilhete")) {
-                        ObjetoInterativo bilhete = jogador.buscarItem("bilhete");
-                        if (bilhete != null) {
-                            System.out.println("---\nVocê lê o bilhete: " + bilhete.getDescricao());
-                        } else {
-                            System.out.println("---\nVocê precisa pegar o bilhete para poder lê-lo.");
-                        }
-                    } else if (nomeDoAlvo.equalsIgnoreCase("tapete")) {
-                        ObjetoInterativo tapete = sala.buscarObjeto("tapete");
-                        if (tapete != null) {
-                            sala.revelarChave();
-                        } else {
-                            System.out.println("---\nNão há um tapete aqui.");
-                        }
-                    } else {
-                        System.out.println("---\nVocê nao pode usar '" + nomeDoAlvo + "' dessa forma.");
+                    
+                    ObjetoInterativo alvo;
+                    try {
+                        alvo = sala.buscarObjeto(nomeDoAlvo);
+                    } catch (ObjetoNaoEncontradoException e) {
+                        alvo = jogador.buscarItem(nomeDoAlvo);
                     }
+                    
+                    System.out.println(alvo.interagir(sala));
 
                 } else if (partesDoComando.length == 4 && partesDoComando[2].equals("em")) {
                     String nomeDoItem = partesDoComando[1];
@@ -109,19 +92,14 @@ public class Jogo {
                     ObjetoInterativo item = jogador.buscarItem(nomeDoItem);
                     ObjetoInterativo alvo = sala.buscarObjeto(nomeDoAlvo);
 
-                    if (item == null) {
-                        System.out.println("---\nVocê não tem '" + nomeDoItem + "' no seu inventario.");
-                    } else if (alvo == null) {
-                        System.out.println("---\nNao ha '" + nomeDoAlvo + "' na sala para usar isso.");
-                    } else {
-                        if (sala.resolverEnigma(item.getNome(), alvo.getNome())) {
-                            System.out.println("---\nFuncionou!\n");
-                        } else {
-                            System.out.println("---\nIsso nao parece ter efeito.\n");
-                        }
+                    if (!(item instanceof ItemPegavel)) {
+                        throw new ComandoInvalidoException("Algo deu errado.");
                     }
+
+                    System.out.println(alvo.usarCom((ItemPegavel) item, sala));
+
                 } else {
-                    System.out.println("---\nUse o formato: 'usar <objeto>' ou 'usar <item> em <alvo>'\n");
+                    throw new ComandoInvalidoException("---\nUse o formato: 'usar <objeto>' ou 'usar <item> em <alvo>'\n");
                 }
                 break;
 
@@ -130,8 +108,7 @@ public class Jogo {
                 break;
 
             default:
-                System.out.println("\nComando desconhecido. Tente novamente.\n");
-                break;
+                throw new ComandoInvalidoException("\nComando desconhecido. Tente novamente.\n");
         }
     }
 }

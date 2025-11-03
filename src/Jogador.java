@@ -16,12 +16,11 @@ public class Jogador {
         return nome;
     }
 
-    public boolean pegarItem(ObjetoInterativo item) {
+    public void pegarItem(ObjetoInterativo item) throws InventarioCheioException {
         if (this.inventario.size() < this.tamanhoInventario) {
             this.inventario.add(item);
-            return true;
         } else {
-            return false;
+            throw new InventarioCheioException("---\nSeu inventario esta cheio!");
         }
     }
 
@@ -38,12 +37,12 @@ public class Jogador {
         }
     }
 
-    public ObjetoInterativo buscarItem(String nomeDoItem) {
+    public ObjetoInterativo buscarItem(String nomeDoItem) throws ObjetoNaoEncontradoException {
         for (ObjetoInterativo item : this.inventario) {
             if (item.getNome().equalsIgnoreCase(nomeDoItem)) {
                 return item;
             }
         }
-        return null;
+        throw new ObjetoNaoEncontradoException("---\nVocê não tem '" + nomeDoItem + "' no seu inventario.");
     }
 }

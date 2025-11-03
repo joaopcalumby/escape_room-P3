@@ -14,4 +14,15 @@ public class ObjetoInterativo{
     public String getDescricao() {
         return descricao;
     }
+
+    public String interagir(Sala sala) {
+        if (this instanceof ItemPegavel) {
+            return this.getDescricao();
+        }
+        return "---\nNão acontece nada de interessante.";
+    }
+
+    public String usarCom(ItemPegavel item, Sala sala) {
+        return "---\nIsso nao parece ter efeito.\n";
+    }
 }
