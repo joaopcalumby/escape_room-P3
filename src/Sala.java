@@ -7,16 +7,11 @@ public class Sala {
     private List<ObjetoInterativo> objetosNaSala;
     private boolean saidaLiberada;
 
-    public Sala(String nome) {
+    public Sala(String nome, String descricao) {
         this.nome = nome;
-        this.descricao = "Você está em uma sala fria com paredes de pedra.\nNo centro, há uma MESA de madeira com um BILHETE em cima dela.\nAo norte, uma grande PORTA de ferro.\nNo chao, um TAPETE empoeirado.";
+        this.descricao = descricao;
         this.objetosNaSala = new ArrayList<>();
         this.saidaLiberada = false;
-
-        adicionarObjeto(new Porta("porta", "\nÉ uma porta de ferro maciço. Parece bem trancada.")); // Classe especial
-        adicionarObjeto(new ObjetoFixo("mesa", "\nUma mesa de madeira. Sobre ela, há um BILHETE.")); // Classe fixa
-        adicionarObjeto(new ItemPegavel("bilhete", "\nNo bilhete amarelado está escrito: 'Onde o conforto repousa, o caminho se revela.'")); // Classe pegável
-        adicionarObjeto(new Tapete("tapete", "\nUm tapete velho. Parece esconder algo.")); // Classe especial
     }
 
     public String getNome() {
@@ -25,6 +20,10 @@ public class Sala {
 
     public String getDescricao() {
         return descricao;
+    }
+    
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public void adicionarObjeto(ObjetoInterativo objeto) {

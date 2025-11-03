@@ -23,6 +23,13 @@ public class Jogador {
             throw new InventarioCheioException("---\nSeu inventario esta cheio!");
         }
     }
+    
+    public void removerItem(ObjetoInterativo item) throws ObjetoNaoEncontradoException {
+        if (!this.inventario.remove(item)) {
+             throw new ObjetoNaoEncontradoException("---\n(Erro interno) Item não encontrado para remoção.");
+        }
+    }
+
 
     public void mostrarInventario() {
         System.out.println("\n---\nJogador: " + this.nome);

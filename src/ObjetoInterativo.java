@@ -14,6 +14,10 @@ public class ObjetoInterativo{
     public String getDescricao() {
         return descricao;
     }
+    
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public String interagir(Sala sala) {
         if (this instanceof ItemPegavel) {
@@ -22,7 +26,7 @@ public class ObjetoInterativo{
         return "---\nNão acontece nada de interessante.";
     }
 
-    public String usarCom(ItemPegavel item, Sala sala) {
+    public String usarCom(ItemPegavel item, Sala sala, Jogador jogador) {
         return "---\nIsso nao parece ter efeito.\n";
     }
 }
