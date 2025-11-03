@@ -1,12 +1,10 @@
 public class ObjetoInterativo{
     private String nome;
     private String descricao;
-    private boolean pegavel;
 
-    public ObjetoInterativo(String nome, String descricao, boolean pegavel) {
+    public ObjetoInterativo(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
-        this.pegavel = pegavel;
     }
 
     public String getNome() {
@@ -15,9 +13,5 @@ public class ObjetoInterativo{
 
     public String getDescricao() {
         return descricao;
-    }
-
-    public boolean isPegavel() {
-        return pegavel;
     }
 }

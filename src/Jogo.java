@@ -65,7 +65,8 @@ public class Jogo {
                     if (objeto == null) {
                         System.out.println("---\nNao ha nenhum '" + nomeDoObjeto + "' aqui.");
                     } else {
-                        if (objeto.isPegavel()) {
+                        // AQUI ESTÁ A MUDANÇA: Trocamos 'isPegavel()' por 'instanceof ItemPegavel'
+                        if (objeto instanceof ItemPegavel) {
                             if (jogador.pegarItem(objeto)) {
                                 sala.removerObjeto(objeto);
                                 System.out.println("---\nVoce pegou: " + objeto.getNome());
@@ -134,4 +135,3 @@ public class Jogo {
         }
     }
 }
-

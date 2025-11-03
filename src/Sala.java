@@ -1,22 +1,23 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sala {
     private String nome;
     private String descricao;
-    private ObjetoInterativo[] objetosNaSala;
-    private int objetosPresentes;
+    private List<ObjetoInterativo> objetosNaSala;
     private boolean saidaLiberada;
 
     public Sala(String nome) {
         this.nome = nome;
         this.descricao = "Você está em uma sala fria com paredes de pedra.\nNo centro, há uma MESA de madeira com um bilhete em cima dela.\nAo norte, uma grande PORTA de ferro.\nNo chao, um TAPETE empoeirado que cobre parte do piso da Camara.";
-        this.objetosNaSala = new ObjetoInterativo[5];
-        this.objetosPresentes = 0;
+        
+        this.objetosNaSala = new ArrayList<>();
         this.saidaLiberada = false;
 
-        adicionarObjeto(new ObjetoInterativo("porta", "\nÉ uma porta de ferro maciço. Parece bem trancada.", false));
-        adicionarObjeto(new ObjetoInterativo("mesa", "\nUma mesa de madeira. Sobre ela, há um BILHETE.", false));
-        adicionarObjeto(new ObjetoInterativo("bilhete", "\nNo bilhete amarelado está escrito: 'A liberdade está sob os pés dos que descansam'.", true));
-        adicionarObjeto(new ObjetoInterativo("tapete", "\nUm tapete velho. Parece que há algo embaixo.", false));
-    //    adicionarObjeto(new ObjetoInterativo("chave", "\Numa pequena chave de ferro. Estava debaixo do tapete.", true));
+        adicionarObjeto(new ObjetoFixo("porta", "\nÉ uma porta de ferro maciço. Parece bem trancada."));
+        adicionarObjeto(new ObjetoFixo("mesa", "\nUma mesa de madeira. Sobre ela, há um BILHETE."));
+        adicionarObjeto(new ItemPegavel("bilhete", "\nNo bilhete amarelado está escrito: 'A liberdade está sob os pés dos que descansam'."));
+        adicionarObjeto(new ObjetoFixo("tapete", "\nUm tapete velho. Parece que há algo embaixo."));
     }
 
     public String getNome() {
@@ -27,12 +28,8 @@ public class Sala {
         return descricao;
     }
 
-
     private void adicionarObjeto(ObjetoInterativo objeto) {
-        if (this.objetosPresentes < this.objetosNaSala.length) {
-            this.objetosNaSala[this.objetosPresentes] = objeto;
-            this.objetosPresentes++;
-        }
+        this.objetosNaSala.add(objeto);
     }
 
     public void mostrarSala() {
@@ -40,15 +37,15 @@ public class Sala {
         System.out.println("Sala: " + this.nome + "\n");
         System.out.println(this.descricao + "\n");
         System.out.println("Objetos na sala:");
-        for (int i = 0; i < this.objetosPresentes; i++) {
-            System.out.println(" - " + this.objetosNaSala[i].getNome());
+        for (ObjetoInterativo obj : this.objetosNaSala) {
+            System.out.println(" - " + obj.getNome());
         }
     }
 
     public ObjetoInterativo buscarObjeto(String nomeDoObjeto) {
-        for (int i = 0; i < this.objetosPresentes; i++) {
-            if (this.objetosNaSala[i].getNome().equalsIgnoreCase(nomeDoObjeto)) {
-                return this.objetosNaSala[i];
+        for (ObjetoInterativo obj : this.objetosNaSala) {
+            if (obj.getNome().equalsIgnoreCase(nomeDoObjeto)) {
+                return obj;
             }
         } return null;
     }
@@ -65,26 +62,13 @@ public class Sala {
     }
 
     public void removerObjeto(ObjetoInterativo objetoParaRemover) {
-        int indiceEncontrado = -1;
-            for (int i = 0; i < this.objetosPresentes; i++) {
-                if (this.objetosNaSala[i].getNome().equals(objetoParaRemover.getNome())) {
-                    indiceEncontrado = i;
-                    break;
-                }
-            }
-
-            if (indiceEncontrado != -1) {
-                for (int i = indiceEncontrado; i < this.objetosPresentes - 1; i++) {
-                    this.objetosNaSala[i] = this.objetosNaSala[i + 1];
-                }
-                this.objetosPresentes--;
-            }
+        this.objetosNaSala.remove(objetoParaRemover);
     }
 
     public void revelarChave() {
         if (buscarObjeto("chave") == null) {
             System.out.println("---\nVocê levanta o tapete e encontra uma chave!");
-            adicionarObjeto(new ObjetoInterativo("chave", "\nUma pequena chave de ferro, recém descoberta.", true));
+            adicionarObjeto(new ItemPegavel("chave", "\nUma pequena chave de ferro, recém descoberta."));
         } else {
         System.out.println("---\nVocê já pegou a chave que estava aqui.");
         }

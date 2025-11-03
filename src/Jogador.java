@@ -1,12 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Jogador {
     private String nome;
-    private ObjetoInterativo[] inventario;
-    private int itensNoInventario;
+    private List<ObjetoInterativo> inventario;
+    private int tamanhoInventario;
 
     public Jogador(String nome, int tamanhoInventario) {
         this.nome = nome;
-        this.inventario = new ObjetoInterativo[tamanhoInventario];
-        this.itensNoInventario = 0;
+        this.tamanhoInventario = tamanhoInventario;
+        this.inventario = new ArrayList<>();
     }
 
     public String getNome() {
@@ -14,9 +17,8 @@ public class Jogador {
     }
 
     public boolean pegarItem(ObjetoInterativo item) {
-        if (this.itensNoInventario < this.inventario.length) {
-            this.inventario[this.itensNoInventario] = item;
-            this.itensNoInventario++;
+        if (this.inventario.size() < this.tamanhoInventario) {
+            this.inventario.add(item);
             return true;
         } else {
             return false;
@@ -26,19 +28,20 @@ public class Jogador {
     public void mostrarInventario() {
         System.out.println("\n---\nJogador: " + this.nome);
         System.out.println("Inventário: ");
-        if (this.itensNoInventario == 0){
+        
+        if (this.inventario.isEmpty()){
             System.out.println(" - Vazio");
         } else {
-            for (int i = 0; i < this.itensNoInventario; i++) {
-                System.out.println(" - " + this.inventario[i].getNome());
+            for (ObjetoInterativo item : this.inventario) {
+                System.out.println(" - " + item.getNome());
             }
         }
     }
 
     public ObjetoInterativo buscarItem(String nomeDoItem) {
-        for (int i = 0; i < this.itensNoInventario; i++) {
-            if (this.inventario[i].getNome().equalsIgnoreCase(nomeDoItem)) {
-                return this.inventario[i];
+        for (ObjetoInterativo item : this.inventario) {
+            if (item.getNome().equalsIgnoreCase(nomeDoItem)) {
+                return item;
             }
         }
         return null;
