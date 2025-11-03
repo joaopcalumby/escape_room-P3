@@ -1,3 +1,4 @@
+package Jogo.Exceptions;
 public class ObjetoNaoEncontradoException extends Exception {
     public ObjetoNaoEncontradoException(String mensagem) {
         super(mensagem);

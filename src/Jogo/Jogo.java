@@ -1,4 +1,9 @@
+package Jogo;
+
 import java.util.Scanner;
+
+import Jogo.Exceptions.*;
+import Jogo.Objetos.*;
 
 public class Jogo {
     

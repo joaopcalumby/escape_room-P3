@@ -1,3 +1,9 @@
+package Jogo.Objetos;
+import Jogo.Exceptions.InventarioCheioException;
+import Jogo.Exceptions.ObjetoNaoEncontradoException;
+import Jogo.Jogador;
+import Jogo.Sala;
+
 public class Tocha extends ItemPegavel {
 
     public Tocha(String nome, String descricao) {

@@ -1,5 +1,10 @@
+package Jogo;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import Jogo.Exceptions.ObjetoNaoEncontradoException;
+import Jogo.Objetos.ObjetoInterativo;
 
 public class Sala {
     private String nome;

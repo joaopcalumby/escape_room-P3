@@ -1,3 +1,8 @@
+package Jogo.Objetos;
+import Jogo.Exceptions.ObjetoNaoEncontradoException;
+import Jogo.Jogador;
+import Jogo.Sala;
+
 public class Arandela extends ObjetoInterativo {
 
     private boolean chavePegada;

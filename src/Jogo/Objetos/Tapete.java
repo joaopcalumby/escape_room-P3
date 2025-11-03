@@ -1,3 +1,6 @@
+package Jogo.Objetos;
+import Jogo.Sala;
+
 public class Tapete extends ObjetoInterativo {
     
     private boolean chaveRevelada;

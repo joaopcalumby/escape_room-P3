@@ -1,3 +1,7 @@
+package Jogo.Objetos;
+import Jogo.Jogador;
+import Jogo.Sala;
+
 public class ObjetoInterativo{
     private String nome;
     private String descricao;

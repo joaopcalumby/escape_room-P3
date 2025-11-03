@@ -1,5 +1,11 @@
+package Jogo;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import Jogo.Exceptions.InventarioCheioException;
+import Jogo.Exceptions.ObjetoNaoEncontradoException;
+import Jogo.Objetos.ObjetoInterativo;
 
 public class Jogador {
     private String nome;
