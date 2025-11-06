@@ -41,7 +41,7 @@ public class Sala {
         System.out.println(this.descricao + "\n");
         System.out.println("Objetos na sala:");
         for (ObjetoInterativo obj : this.objetosNaSala) {
-            System.out.println(" - " + obj.getNome());
+            System.out.println("- " + obj.getNome());
         }
     }
 

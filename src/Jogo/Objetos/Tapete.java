@@ -2,7 +2,6 @@ package Jogo.Objetos;
 import Jogo.Sala;
 
 public class Tapete extends ObjetoInterativo {
-    
     private boolean chaveRevelada;
 
     public Tapete(String nome, String descricao) {
@@ -15,9 +14,9 @@ public class Tapete extends ObjetoInterativo {
         if (!chaveRevelada) {
             chaveRevelada = true;
             sala.adicionarObjeto(new ItemPegavel("chave", "\nUma pequena chave de ferro, recém descoberta."));
-            return "---\nVocê levanta o tapete e encontra uma chave!";
+            return "\n---\nVocê levanta o tapete e encontra uma chave!";
         } else {
-            return "---\nVocê já olhou debaixo do tapete.";
+            return "\n---\nVocê já olhou debaixo do tapete.";
         }
     }
 }

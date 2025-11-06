@@ -32,7 +32,7 @@ public class Jogador {
     
     public void removerItem(ObjetoInterativo item) throws ObjetoNaoEncontradoException {
         if (!this.inventario.remove(item)) {
-             throw new ObjetoNaoEncontradoException("---\n(Erro interno) Item não encontrado para remoção.");
+             throw new ObjetoNaoEncontradoException("---\n(Erro interno) Item nao encontrado para remoção.");
         }
     }
 
@@ -56,6 +56,6 @@ public class Jogador {
                 return item;
             }
         }
-        throw new ObjetoNaoEncontradoException("---\nVocê não tem '" + nomeDoItem + "' no seu inventario.");
+        throw new ObjetoNaoEncontradoException("---\nVocê nao tem '" + nomeDoItem + "' no seu inventario.");
     }
 }

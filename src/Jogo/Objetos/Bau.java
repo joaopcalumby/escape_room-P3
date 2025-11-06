@@ -2,12 +2,11 @@ package Jogo.Objetos;
 import Jogo.Jogador;
 import Jogo.Sala;
 
-public class Baú extends ObjetoInterativo {
-
+public class Bau extends ObjetoInterativo {
     private boolean trancado;
     private boolean itensPegos;
 
-    public Baú(String nome, String descricao) {
+    public Bau(String nome, String descricao) {
         super(nome, descricao);
         this.trancado = true;
         this.itensPegos = false;
@@ -17,20 +16,31 @@ public class Baú extends ObjetoInterativo {
     public String interagir(Sala sala) {
         if (trancado) {
             return "---\nO baú está trancado com um fecho pequeno.";
-        } else if (!itensPegos) {
+        } 
+        
+        if (!itensPegos) {
             sala.adicionarObjeto(new Tocha("tocha", "Uma tocha de madeira com a ponta encharcada em piche."));
             sala.adicionarObjeto(new ItemPegavel("pederneira", "Um conjunto de pederneira e sílex, para fazer fogo."));
-            itensPegos = true;
+            
+            this.itensPegos = true;
+
+            this.setDescricao("Um baú de madeira aberto. Dentro, você vê uma 'tocha' e uma 'pederneira'.");
+            
             return "---\nDentro do baú agora aberto, você encontra uma 'tocha' apagada e uma 'pederneira'.";
-        } else {
-            return "---\nO baú está vazio.";
-        }
+        } 
+        
+        this.setDescricao("Um baú de madeira aberto. Está vazio.");
+            
+        return "---\nO baú está vazio.";
     }
 
     @Override
     public String usarCom(ItemPegavel item, Sala sala, Jogador jogador) {
         if (item.getNome().equalsIgnoreCase("chave_pequena") && trancado) {
             this.trancado = false;
+
+            this.setDescricao("Um baú de madeira. O fecho está destrancado.");
+            
             return "---\nO fecho do baú se abre com um clique.";
         } else if (!trancado) {
             return "---\nO baú já está destrancado.";

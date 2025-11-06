@@ -20,7 +20,7 @@ public class Tocha extends ItemPegavel {
                 ItemPegavel tochaAcesa = new ItemPegavel("tocha_acesa", "Uma tocha queimando com uma chama forte. Ilumina bem.");
                 jogador.pegarItem(tochaAcesa);
                 
-                return "---\nVocê raspa a pederneira, e faíscas acendem a ponta da tocha. Agora você tem luz!";
+                return "\n---\nVocê raspa a pederneira, e faíscas acendem a ponta da tocha. Agora você tem luz!";
             
             } catch (InventarioCheioException e) {
                 try {
@@ -28,10 +28,10 @@ public class Tocha extends ItemPegavel {
                     jogador.pegarItem(item);
                 } catch (Exception e2) {  }
                 
-                return "---\nVocê tenta acender a tocha, mas não há espaço no seu inventário para o item aceso.";
+                return "\n---\nVocê tenta acender a tocha, mas nao há espaço no seu inventário para o item aceso.";
 
             } catch (ObjetoNaoEncontradoException e) {
-                return "---\nAlgo estranho aconteceu. Tente novamente.";
+                return "\n---\nAlgo estranho aconteceu. Tente novamente.";
             }
         }
         return super.usarCom(item, sala, jogador);

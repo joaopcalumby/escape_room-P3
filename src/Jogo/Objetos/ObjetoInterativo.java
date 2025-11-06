@@ -27,7 +27,7 @@ public class ObjetoInterativo{
         if (this instanceof ItemPegavel) {
             return this.getDescricao();
         }
-        return "---\nNão acontece nada de interessante.";
+        return "---\nNao acontece nada de interessante.";
     }
 
     public String usarCom(ItemPegavel item, Sala sala, Jogador jogador) {
